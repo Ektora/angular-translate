@@ -1,1 +1,48 @@
-<p>translate works!</p>
+
+<mat-card>
+
+    <form [formGroup]="translateForm">
+    <mat-card-content>
+        <div class="translate-form">
+        <mat-form-field>
+            <mat-label>A fordítandó szöveg</mat-label>
+            <input matInput type="text" placeholder="A lefordítani kívánt szöveg" formControlName="forditandoSzoveg" id="forditandoSzoveg">
+        </mat-form-field>
+            <ng-container *ngIf="translateForm.controls.forditandoSzoveg.invalid && (translateForm.controls.forditandoSzoveg.dirty || translateForm.controls.forditandoSzoveg.touched)">
+               <span class="error-message" *ngIf="translateForm.controls.forditandoSzoveg.errors?.required">A lefordítandó szöveg megadása kötelező!</span>
+            </ng-container>
+        <mat-form-field>
+        <mat-label>Kezdő nyelv</mat-label>
+        <mat-select id="induloNyelv" formControlName="induloNyelv">
+            <mat-option *ngFor="let c of induloorszagLista" [value]="c.code">{{c.name}}</mat-option> 
+        </mat-select>
+        </mat-form-field>
+            <ng-container *ngIf="translateForm.controls.induloNyelv.invalid && (translateForm.controls.induloNyelv.dirty || translateForm.controls.induloNyelv.touched)">
+             <span class="error-message" *ngIf="translateForm.controls.induloNyelv.errors?.required">Az induló nyelv kiválasztása kötelező!</span>
+            </ng-container> 
+
+        <mat-form-field>
+        <mat-label>Cél nyelv</mat-label>
+        <mat-select id="celNyelv" formControlName="celNyelv">
+            <mat-option *ngFor="let c of celorszagLista" [value]="c.code">{{c.name}}</mat-option> 
+        </mat-select>
+        </mat-form-field>
+            <ng-container *ngIf="translateForm.controls.celNyelv.invalid && (translateForm.controls.celNyelv.dirty || translateForm.controls.celNyelv.touched)">
+            <span class="error-message" *ngIf="translateForm.controls.celNyelv.errors?.required">A cél nyelv kiválasztása kötelező!</span>
+           </ng-container> 
+       
+        <div class="button">
+            <button mat-stroked-button color="primary" *ngIf="translateForm.value.induloNyelv!='auto'" [disabled]="translateForm.invalid || isLoading" (click)="translate(translateForm.value.forditandoSzoveg,translateForm.value.induloNyelv, translateForm.value.celNyelv)">Fordítás</button>
+            <button mat-stroked-button color="primary" *ngIf="translateForm.value.induloNyelv=='auto'" [disabled]="translateForm.invalid || isLoading" (click)="translateAuto(translateForm.value.forditandoSzoveg, translateForm.value.celNyelv)">Autó fordítás</button>
+            <mat-spinner diameter="30" *ngIf="isLoading"></mat-spinner>
+        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>A lefordított szöveg:</mat-label>
+            <input matInput type="text" readonly placeholder="A lefordított szöveg" [value]="eredmeny">
+          </mat-form-field>
+        
+        </div>
+    </mat-card-content>
+    </form>
+
+</mat-card>

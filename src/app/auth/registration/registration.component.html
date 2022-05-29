@@ -1,1 +1,38 @@
-<p>registration works!</p>
+<mat-card>
+    <form [formGroup]="registrationForm">
+    <mat-card-header>
+        <mat-card-title>Regisztráció</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="registration-form">
+            <mat-form-field>
+                <mat-label>Felhasználó név</mat-label>
+                <input matInput type="text" placeholder="Felhasználó név" formControlName="felhasznaloNev" id="felhasznaloNev">
+            </mat-form-field>
+                <ng-container *ngIf="registrationForm.controls.felhasznaloNev.invalid && (registrationForm.controls.felhasznaloNev.dirty || registrationForm.controls.felhasznaloNev.touched)">
+                    <span class="error-message" *ngIf="registrationForm.controls.felhasznaloNev.errors?.required">A felhasználó név kötelező!</span>
+                </ng-container>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="email" placeholder="Email" formControlName="email" id="email">
+            </mat-form-field>
+                <ng-container *ngIf="registrationForm.controls.email.invalid && (registrationForm.controls.email.dirty || registrationForm.controls.email.touched)">
+                    <span class="error-message" *ngIf="registrationForm.controls.email.errors?.required">Az email címet kötelező megadni!</span>
+                    <span class="error-message" *ngIf="registrationForm.controls.email.errors?.email">Érvénytelen email cím formátum</span>
+                </ng-container>
+            <mat-form-field>
+                <mat-label>Telefonszám</mat-label>
+                <input matInput type="tel" placeholder="Telefonszám" formControlName="telefonSzam" id="telefonSzam">
+            </mat-form-field>
+            <ng-container *ngIf="registrationForm.controls.telefonSzam.invalid && (registrationForm.controls.telefonSzam.dirty || registrationForm.controls.telefonSzam.touched)">
+                <span class="error-message" *ngIf="registrationForm.controls.telefonSzam.errors?.required">A telefonszám megadása kötelező!</span>
+            </ng-container>
+            <mat-checkbox formControlName="adatVedelmiNyilatkozat" id="adatVedelmiNyilatkozat">Adatkezelési nyilatkozat elfogadása</mat-checkbox>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button color="primary" [disabled]="registrationForm.invalid || !registrationForm.value.adatVedelmiNyilatkozat || isRegistrated()" (click)="registration(registrationForm.value.felhasznaloNev,registrationForm.value.email,registrationForm.value.telefonSzam)">Regisztráció</button>
+        <button mat-button color="accent" (click)="back()">Vissza</button>
+    </mat-card-actions>
+</form>
+</mat-card>

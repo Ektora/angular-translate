@@ -40,7 +40,7 @@
             <mat-label>A lefordított szöveg:</mat-label>
             <input matInput type="text" readonly placeholder="A lefordított szöveg" [value]="eredmeny">
           </mat-form-field>
-        
+          <button mat-button color="primary" (click)="registration()" *ngIf="!isRegistrated()">Regisztráció</button>
         </div>
     </mat-card-content>
     </form>

@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '../translate.service';
 import { finalize } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-translate',
@@ -17,7 +18,7 @@ export class TranslateComponent implements OnInit {
   celorszagLista : any[] = [];
   eredmeny : string = "";
   isLoading : boolean = false;
-  constructor(private translateService : TranslateService, private snackBar : MatSnackBar) {
+  constructor(private translateService : TranslateService, private snackBar : MatSnackBar, private router : Router) {
     this.translateForm = new FormGroup({
       forditandoSzoveg : new FormControl('', Validators.required),
       induloNyelv: new FormControl('', Validators.required),
@@ -41,6 +42,14 @@ export class TranslateComponent implements OnInit {
         this.celorszagLista = orszagok;
       }
     );
+  }
+
+  isRegistrated(){
+    return this.translateService.isRegistrated();
+  }
+
+  registration(){
+    this.router.navigateByUrl('/registration');
   }
 
   translate(forditandoSzoveg:string,induloNyelv:string, celNyelv:string){

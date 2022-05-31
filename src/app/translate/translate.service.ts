@@ -17,6 +17,12 @@ export class TranslateService {
     }
    }
 
+   isRegistrated(){
+    if(localStorage.getItem("registratedInUser")){
+      return true;
+    }
+     return false;
+  }
 
    orszagDetektalas(formData: FormData){
     return this.http.post<{confidence: number, language: string}[]>(`${this.baseURL}/detect`, formData);
@@ -27,7 +33,7 @@ export class TranslateService {
 
    translate(formData: FormData){
     this.forditasSzama++;
-    if(this.forditasSzama > 3){
+    if(this.forditasSzama > 3 && !this.isRegistrated()){
       this.router.navigateByUrl('/registration');
     }
     localStorage.setItem("translatedNumber", JSON.stringify(this.forditasSzama));
